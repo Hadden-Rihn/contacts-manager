@@ -9,4 +9,11 @@ public class ContactsIO {
                 "5. Exit.\n" +
                 "Enter an option (1, 2, 3, 4 or 5):");
     }
+    //method that returns a list of all contacts
+
+    //method adding/deleting new contact based on user input
+
+    //method to search by contact name
+
+    //Exit
 }
