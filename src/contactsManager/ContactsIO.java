@@ -4,12 +4,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Scanner;
+import java.rmi.server.ExportException;
+import java.util.*;
 
 public class ContactsIO {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
 
     Scanner scanner = new Scanner(System.in);
 
@@ -26,6 +27,22 @@ public class ContactsIO {
         do {
             if(userInput == 1) {
                 System.out.println("Viewing Contacts");
+                try{
+                    List<String>contents= Files.readAllLines(
+                    Paths.get(directory,fileName)
+                    );
+                }catch(Exception e){
+                    System.out.println("Exception!");
+                    e.printStackTrace();
+                }
+                try{
+                    List<String> contents = Files.readAllLines(Paths.get("contacts/contacts.txt"));
+                    System.out.println(contents.toString());
+
+                }catch(IOException e){
+                    System.out.println("Exception!");
+                    e.printStackTrace();
+                }
 
             } else if (userInput == 2){
                 System.out.println("Enter new contact");
