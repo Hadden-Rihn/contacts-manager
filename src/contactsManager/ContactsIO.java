@@ -61,7 +61,7 @@ public class ContactsIO {
             }
             System.out.println("Enter an option");
             userInput = scanner.nextInt();
-//
+
         } while (userInput != 5);
     }
 
@@ -89,12 +89,16 @@ public class ContactsIO {
     //method adding/deleting new contact based on user input
     public static void createNameList() {
         Scanner scanner = new Scanner(System.in);
+
         String newName = scanner.nextLine();
+        System.out.println("Enter phone number: ");
+        String newNumber = scanner.nextLine();
 
         Path p = Paths.get("contacts", "contacts.txt");
 
-        List<String> names = new ArrayList<>();
-        names.add(newName);
+        List<String> contacts = new ArrayList<>();
+        contacts.add(super(Contacts));
+
 
         try {
             Files.write(p, names, StandardOpenOption.APPEND);
@@ -106,17 +110,34 @@ public class ContactsIO {
         String fileName = "contacts.txt";
         Path dataDirectory = Paths.get(directory);
         Path dataFile = Paths.get(directory, fileName);
-        System.out.println("Enter a phone number");
-        String phoneNumber = scanner.nextLine();
-        List<String> nums = new ArrayList<>();
-        nums.add(phoneNumber);
+//        System.out.println("Enter a phone number");
+//        String phoneNumber = scanner.nextLine();
+//        List<String> nums = new ArrayList<>();
+//        nums.add(phoneNumber);
+//
+//        try {
+//            Files.write(dataFile, nums, StandardOpenOption.APPEND);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.printf(newName+phoneNumber+"\n");
+    }
+    public class Contacts{
+        String name;
+        String phoneNumber;
 
-        try {
-            Files.write(dataFile, nums, StandardOpenOption.APPEND);
-        } catch (IOException e) {
-            e.printStackTrace();
+        Contacts(String name,String phoneNumber){
+            this.name = name;
+            this.phoneNumber = phoneNumber;
         }
 
+        public String getName() {
+            return name;
+        }
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
     }
 }//method to search by contact name
 
