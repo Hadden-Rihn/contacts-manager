@@ -4,15 +4,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.rmi.server.ExportException;
 import java.util.*;
 
 public class ContactsIO {
 
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
 
-    Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
 
         System.out.println("1. View contacts.\n" +
@@ -25,32 +26,33 @@ public class ContactsIO {
         int userInput = scanner.nextInt();
 
         do {
-            if(userInput == 1) {
+            if (userInput == 1) {
                 System.out.println("Viewing Contacts");
-                try{
-                    List<String>contents= Files.readAllLines(
-                    Paths.get(directory,fileName)
+                try {
+                    List<String> contents = Files.readAllLines(
+                            Paths.get(directory, fileName)
                     );
-                }catch(Exception e){
+                } catch (Exception e) {
                     System.out.println("Exception!");
                     e.printStackTrace();
                 }
-                try{
+                try {
                     List<String> contents = Files.readAllLines(Paths.get("contacts/contacts.txt"));
                     System.out.println(contents.toString());
 
-                }catch(IOException e){
+                } catch (IOException e) {
                     System.out.println("Exception!");
                     e.printStackTrace();
                 }
 
-            } else if (userInput == 2){
+            } else if (userInput == 2) {
                 System.out.println("Enter new contact");
+                createNameList();
 
-            } else if(userInput == 3) {
+            } else if (userInput == 3) {
                 System.out.println("searching contacts");
 
-            } else if(userInput == 4) {
+            } else if (userInput == 4) {
                 System.out.println("deleting contact");
 
             } else {
@@ -59,8 +61,8 @@ public class ContactsIO {
             }
             System.out.println("Enter an option");
             userInput = scanner.nextInt();
-
-        }while(userInput != 5);
+//
+        } while (userInput != 5);
     }
 
     //method that returns a list of all contacts
@@ -78,16 +80,45 @@ public class ContactsIO {
                 Files.createDirectories(dataDirectory);
                 Files.createFile(dataFile);
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
-}
 
     //method adding/deleting new contact based on user input
+    public static void createNameList() {
+        Scanner scanner = new Scanner(System.in);
+        String newName = scanner.nextLine();
 
-    //method to search by contact name
+        Path p = Paths.get("contacts", "contacts.txt");
+
+        List<String> names = new ArrayList<>();
+        names.add(newName);
+
+        try {
+            Files.write(p, names, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String directory = "contacts";
+        String fileName = "contacts.txt";
+        Path dataDirectory = Paths.get(directory);
+        Path dataFile = Paths.get(directory, fileName);
+        System.out.println("Enter a phone number");
+        String phoneNumber = scanner.nextLine();
+        List<String> nums = new ArrayList<>();
+        nums.add(phoneNumber);
+
+        try {
+            Files.write(dataFile, nums, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+}//method to search by contact name
 
     //Exit
 
