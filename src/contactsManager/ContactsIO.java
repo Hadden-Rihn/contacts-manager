@@ -46,12 +46,11 @@ public class ContactsIO {
                 }
 
             } else if (userInput == 2) {
-                System.out.println("Enter new contact");
                 createNameList();
 
             } else if (userInput == 3) {
                 System.out.println("searching contacts");
-
+                searchName();
             } else if (userInput == 4) {
                 System.out.println("deleting contact");
 
@@ -61,7 +60,7 @@ public class ContactsIO {
             }
             System.out.println("Enter an option");
             userInput = scanner.nextInt();
-
+//
         } while (userInput != 5);
     }
 
@@ -89,57 +88,36 @@ public class ContactsIO {
     //method adding/deleting new contact based on user input
     public static void createNameList() {
         Scanner scanner = new Scanner(System.in);
+        Path path = Paths.get("contacts", "contacts.txt");
 
+        //Ask user to enter new contact name
+        System.out.println("Enter new user: ");
         String newName = scanner.nextLine();
-        System.out.println("Enter phone number: ");
-        String newNumber = scanner.nextLine();
+        List<String> names = new ArrayList<>();
+        names.add(newName);
 
-        Path p = Paths.get("contacts", "contacts.txt");
+        //Enter new phone number
+        System.out.println("Enter a phone number: ");
+        String phoneNumber = scanner.nextLine();
+        List<String> nums = new ArrayList<>();
+        nums.add(phoneNumber);
 
-        List<String> contacts = new ArrayList<>();
-        contacts.add(super(Contacts));
+        //Store new user to variable
+        String newUser = newName  +"|"+ phoneNumber;
 
-
+        //Write new variable to contacts.txt
         try {
-            Files.write(p, names, StandardOpenOption.APPEND);
+            Files.write(path, Arrays.asList(newUser), StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        String directory = "contacts";
-        String fileName = "contacts.txt";
-        Path dataDirectory = Paths.get(directory);
-        Path dataFile = Paths.get(directory, fileName);
-//        System.out.println("Enter a phone number");
-//        String phoneNumber = scanner.nextLine();
-//        List<String> nums = new ArrayList<>();
-//        nums.add(phoneNumber);
-//
-//        try {
-//            Files.write(dataFile, nums, StandardOpenOption.APPEND);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.printf(newName+phoneNumber+"\n");
     }
-    public class Contacts{
-        String name;
-        String phoneNumber;
+//method to search by contact name
+    public static void searchName(){
 
-        Contacts(String name,String phoneNumber){
-            this.name = name;
-            this.phoneNumber = phoneNumber;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getPhoneNumber() {
-            return phoneNumber;
-        }
     }
-}//method to search by contact name
+}
 
     //Exit
 
