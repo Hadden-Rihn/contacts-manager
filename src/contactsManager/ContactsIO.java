@@ -88,7 +88,11 @@ public class ContactsIO {
         }
         try {
             List<String> contents = Files.readAllLines(Paths.get("contacts/contacts.txt"));
-            System.out.println(contents.toString());
+            System.out.printf("Name   |  Phone Number\n" +
+                    "------------------------\n");
+            for (String item :contents){
+                System.out.println("  "+item + "  ");
+            }
 
         } catch (IOException e) {
             System.out.println("Exception!");
@@ -113,12 +117,16 @@ public class ContactsIO {
         List<String> nums = new ArrayList<>();
         nums.add(phoneNumber);
 
+
         //Store new user to variable
-        String newUser = newName  +"|"+ phoneNumber;
+//        String newUser = newName  +" | "+ phoneNumber + "\n";
+        String newUser = String.format("%-20s" + newName + " | " + phoneNumber + "\n");
 
         //Write new variable to contacts.txt
+
+
         try {
-            Files.write(path, Arrays.asList(newUser), StandardOpenOption.APPEND);
+            Files.write(path, Arrays.asList(newUser + "\n"), StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -136,7 +144,7 @@ public class ContactsIO {
                 System.out.println(item);
                 return true;
             }
-        }
+        };
         System.out.println("Contact does not exist");
         return false;
     }
