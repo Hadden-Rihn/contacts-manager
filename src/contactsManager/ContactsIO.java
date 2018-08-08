@@ -5,11 +5,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.rmi.server.ExportException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class ContactsIO {
-
+String newUser;
 
     public static void main(String[] args) throws IOException {
 
@@ -49,8 +51,10 @@ public class ContactsIO {
                 createNameList();
 
             } else if (userInput == 3) {
-                System.out.println("searching contacts");
-                searchName();
+                System.out.println("Enter name to search for");
+                scanner.nextLine();
+                String search = scanner.nextLine();
+                findName(directory, fileName, search);
             } else if (userInput == 4) {
                 System.out.println("deleting contact");
 
@@ -114,9 +118,23 @@ public class ContactsIO {
 
     }
 //method to search by contact name
-    public static void searchName(){
+    public static boolean findName(String directory, String fileName, String search) throws IOException{
+        search = search.toLowerCase();
+        System.out.println(search);
+        Path path = Paths.get(directory, fileName);
+        List<String> list = Files.readAllLines(path);
 
+        for (String item : list) {
+            String lowerCaseItem = item.toLowerCase();
+            if(lowerCaseItem.contains(search)) {
+                System.out.println(item);
+                return true;
+            }
+        }
+        System.out.println("Contact does not exist");
+        return false;
     }
+
 }
 
     //Exit
