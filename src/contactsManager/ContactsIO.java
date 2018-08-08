@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ContactsIO {
-String newUser;
-
+    String newUser;
+    public static int itemID;
     public static void main(String[] args) throws IOException {
 
         Scanner scanner = new Scanner(System.in);
@@ -28,43 +28,32 @@ String newUser;
         int userInput = scanner.nextInt();
 
         do {
+               //show whole list
             if (userInput == 1) {
                 System.out.println("Viewing Contacts");
-                try {
-                    List<String> contents = Files.readAllLines(
-                            Paths.get(directory, fileName)
-                    );
-                } catch (Exception e) {
-                    System.out.println("Exception!");
-                    e.printStackTrace();
-                }
-                try {
-                    List<String> contents = Files.readAllLines(Paths.get("contacts/contacts.txt"));
-                    System.out.println(contents.toString());
-
-                } catch (IOException e) {
-                    System.out.println("Exception!");
-                    e.printStackTrace();
-                }
-
+                showList();
+               //Add new name
             } else if (userInput == 2) {
                 createNameList();
-
+               //Search for name
             } else if (userInput == 3) {
                 System.out.println("Enter name to search for");
                 scanner.nextLine();
                 String search = scanner.nextLine();
                 findName(directory, fileName, search);
+                //Delete contact
             } else if (userInput == 4) {
                 System.out.println("deleting contact");
-
+                scanner.nextLine();
+                String nameToRemove = scanner.nextLine();
+                removeContact(directory,fileName,nameToRemove);
+                //Exit
             } else {
                 System.out.println("Goodbye");
 
             }
             System.out.println("Enter an option");
             userInput = scanner.nextInt();
-//
         } while (userInput != 5);
     }
 
@@ -87,7 +76,25 @@ String newUser;
             System.out.println(e.getMessage());
         }
     }
+    //Show all contacts
+    public static void showList(){
+        try {
+            List<String> contents = Files.readAllLines(
+                    Paths.get(directory, fileName)
+            );
+        } catch (Exception e) {
+            System.out.println("Exception!");
+            e.printStackTrace();
+        }
+        try {
+            List<String> contents = Files.readAllLines(Paths.get("contacts/contacts.txt"));
+            System.out.println(contents.toString());
 
+        } catch (IOException e) {
+            System.out.println("Exception!");
+            e.printStackTrace();
+        }
+    }
 
     //method adding/deleting new contact based on user input
     public static void createNameList() {
@@ -120,7 +127,6 @@ String newUser;
 //method to search by contact name
     public static boolean findName(String directory, String fileName, String search) throws IOException{
         search = search.toLowerCase();
-        System.out.println(search);
         Path path = Paths.get(directory, fileName);
         List<String> list = Files.readAllLines(path);
 
@@ -134,8 +140,32 @@ String newUser;
         System.out.println("Contact does not exist");
         return false;
     }
+    //Re-writing the list
+    public static void addContactstoFile(List<String> list, String dir, String filename) throws IOException {
+        Path filepath = Paths.get(dir, filename);
+        Files.write(filepath, list);
+    }
+    //Delete Contact
+    public static void removeContact(String directory, String fileName, String nameToRemove) throws IOException {
+        Path path = Paths.get(directory, fileName);
+        List<String> list = Files.readAllLines(path);
+        itemID = (-1);
+        for (String item : list) {
+            if (item.contains(nameToRemove)) {
+                itemID = list.indexOf(item);
+            }
+        }
+        if(itemID==(-1)){
+            System.out.println("Contact by that name doesn't exist");
+        }else{
+            list.remove(itemID);
+            System.out.println( "Contact was deleted");
+        }
 
+        addContactstoFile(list,directory,fileName);
+        System.out.println();
+    }
 }
 
-    //Exit
+
 
