@@ -120,7 +120,7 @@ public class ContactsIO {
 
         //Store new user to variable
 //        String newUser = newName  +" | "+ phoneNumber + "\n";
-        String newUser = String.format("%-20s" + newName + " | " + phoneNumber + "\n");
+        String newUser = String.format(newName + " | " + phoneNumber + "\n");
 
         //Write new variable to contacts.txt
 
